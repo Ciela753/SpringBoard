@@ -1,0 +1,42 @@
+package kr.co.codingmonkey.controller;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.extern.log4j.Log4j;
+
+@Controller
+@Log4j
+public class UploadController {
+	@GetMapping("upload")
+	public String uploadForm() {
+		log.info("uploadForm ");
+		return "uploadAjax";
+	}
+	
+	@PostMapping("upload")
+	public @ResponseBody String upload(List<MultipartFile> files, Model model) {
+		String uploadFolder = "D:\\upload";
+		files.forEach(f->{
+			log.info("file name : " + f.getOriginalFilename());
+			log.info("file size : " + f.getSize());
+			File file = new File(uploadFolder, f.getOriginalFilename());
+			try{
+				f.transferTo(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		});
+		
+		return files.size()+"개 파일 업로드";
+	}
+}

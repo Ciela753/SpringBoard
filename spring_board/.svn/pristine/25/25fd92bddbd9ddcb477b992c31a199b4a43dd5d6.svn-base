@@ -1,0 +1,11 @@
+package kr.co.codingmonkey.mapper;
+
+import java.util.List;
+
+import kr.co.codingmonkey.domain.AttachVo;
+
+public interface AttachMapper {
+	void insert(AttachVo vo);
+	void delete(String uuid);
+	List<AttachVo> findBy(Long bno);
+}

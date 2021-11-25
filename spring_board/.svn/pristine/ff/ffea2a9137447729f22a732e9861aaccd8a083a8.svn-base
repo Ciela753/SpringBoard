@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.codingmonkey.mapper.ReplyMapper">
+	<insert id="insert">
+		INSERT INTO TBL_REPLY (RNO, BNO, REPLY, REPLYER)
+		VALUES (SEQ_REPLY.NEXTVAL, #{bno}, #{reply}, #{replyer})
+	</insert>
+	
+	<select id="getList" resultType="reply">
+	SELECT /*+ INDEX(TR PK_REPLY) */ *
+	FROM TBL_REPLY TR
+	WHERE BNO = 262144
+	AND RNO > 30
+	AND ROWNUM &lt;= 10
+	</select>
+</mapper>

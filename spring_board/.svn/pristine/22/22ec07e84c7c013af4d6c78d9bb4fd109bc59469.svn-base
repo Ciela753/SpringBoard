@@ -1,0 +1,62 @@
+package kr.co.codingmonkey.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import kr.co.codingmonkey.domain.BoardVo;
+import kr.co.codingmonkey.domain.Criteria;
+import kr.co.codingmonkey.mapper.BoardMapper;
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
+
+@Log4j
+@Service
+@AllArgsConstructor
+public class BoardServiceImpl implements BoardService {
+	
+	private BoardMapper boardMapper;
+	
+	public void redister(BoardVo boardVo) {
+		boardMapper.insertSelectKey(boardVo);
+	}
+
+	@Override
+	public BoardVo get(Long bno) {
+		return boardMapper.read(bno);
+
+	}
+
+	@Override
+	public boolean modify(BoardVo boardVo) {
+		return boardMapper.update(boardVo) > 0;
+	}
+
+	@Override
+	public boolean remove(Long bno) {
+		return boardMapper.delete(bno) >0;
+	}
+
+	@Override
+	public List<BoardVo> getList(Criteria cri) {
+		return boardMapper.getListWithPaging(cri);
+	}
+	
+	
+	public List<BoardVo> testGetList(Criteria cri) {
+		return boardMapper.getListWithPaging(cri);
+	}
+
+	@Override
+	public void register(BoardVo board) {
+		log.info(board);
+		boardMapper.insertSelectKey(board);
+	}
+
+	@Override
+	public int getTotal(Criteria cri) {
+		return boardMapper.getTotalCount(cri);
+	}
+	
+
+}

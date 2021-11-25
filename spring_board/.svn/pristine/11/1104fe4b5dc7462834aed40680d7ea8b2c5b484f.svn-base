@@ -1,0 +1,23 @@
+package kr.co.codingmonkey.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data @NoArgsConstructor @AllArgsConstructor
+public class AttachDto {
+	private String origin;
+	private String path;
+	private String uuid;
+	private String ext;
+	private String mime;
+	private Long size;
+	private boolean image;
+	
+	public String getThumb() {
+		return path + "/s_" + uuid + "." + ext;
+	}
+	public String getFullPath() {
+		return path + "/" + uuid + "." + ext;
+	}
+}

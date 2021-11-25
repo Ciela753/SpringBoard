@@ -1,0 +1,54 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+</head>
+<body>
+	<input type="file" multiple id="files">
+	<!-- <button id="btnUpload">서버 전송</button> -->
+	<script>
+		$(function() {
+			var regex = /(.*?)\.(exe|sh|zip|alz)$/;
+			var maxSize = 1024*1024*5;
+
+			function checkExtension (fileName, fileSize) {
+				if(fileSize >= maxSize) {
+					alert("파일 사이즈 초과");
+				}
+				if(regex.test(fileName)) {
+					alert("해당 종류의 파일은 업로드 할 수 없습니다.");
+					return false;
+				}
+				return true;
+			}
+
+			$("#files").change(function() {
+				var files = $("#files")[0].files
+				console.log(files);
+
+				var formData = new FormData();
+				for(var i in files) {
+					if(!checkExtension(files[i].name, files[i].size)) {
+						return false;
+					}
+					formData.append("files", files[i]);
+				}
+
+
+				$.ajax("/upload", {
+					processData:false,
+					contentType:false,
+					data:formData,
+					type:"POST",
+					success:function(result) {
+						alert(result);
+					}
+				})
+			});
+		})
+	</script>
+</body>
+</html>
